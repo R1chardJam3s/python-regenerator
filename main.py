@@ -18,10 +18,11 @@ clock = pygame.time.Clock()
 
 crashed = False
 
-bsp = BSP(WIDTH, HEIGHT, 10)
+bsp = BSP(WIDTH, HEIGHT, 5)
 partitions = bsp.generate()
 
 for partition in partitions:
+    if (partition.width > 75 and partition.height > 75) and (partition.width/partition.height < 1.5 and partition.height/partition.width < 1.5):
         pygame.draw.rect(gameDisplay, (random.randint(0,255),random.randint(0,255), random.randint(0,255)),
                          partition.value())
 
@@ -35,8 +36,9 @@ while not crashed:
                 gameDisplay.fill(BLACK)
                 partitions = bsp.generate()
                 for partition in partitions:
-                    pygame.draw.rect(gameDisplay, (random.randint(0,255),random.randint(0,255), random.randint(0,255)),
-                                     partition.value())
+                    if (partition.width > 75 and partition.height > 75) and (partition.width/partition.height < 1.5 and partition.height/partition.width < 1.5):
+                        pygame.draw.rect(gameDisplay, (random.randint(0,255),random.randint(0,255), random.randint(0,255)),
+                                         partition.value())
 
     pygame.display.update()
     
