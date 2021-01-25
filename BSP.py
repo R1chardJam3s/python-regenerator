@@ -9,9 +9,9 @@ class BSP:
 
     def generate(self):
         partitions = []
-        partitions.append(Partition(0,0,self.width,self.height))
+        partitions.append(Partition(0, 0, self.width, self.height))
 
-        for split in range(0,self.split_recursion):
+        for split in range(0, self.split_recursion):
             temp_partitions = []
             for partition in partitions:
                 if partition.splitable:
@@ -27,12 +27,12 @@ class BSP:
                         partition_end_x = partition.x + partition.width
                         partition_split = random.randint(partition_start_x + math.floor(partition.width / 4), partition_end_x - math.floor(partition.width / 4))
                         temp_w = partition_split - partition_start_x
-                        if temp_w <= 250 and (temp_w < partition.height*1.5 and temp_w*1.5 > partition.height):
+                        if temp_w <= 250 and (temp_w < partition.height * 1.5 and temp_w * 1.5 > partition.height):
                             temp_partitions.append(Partition(partition_start_x, partition.y, temp_w, partition.height, splitable=False))
                         else:
                             temp_partitions.append(Partition(partition_start_x, partition.y, temp_w, partition.height))
                         temp_w = partition_end_x - partition_split
-                        if temp_w <= 250 and (temp_w < partition.height*1.5 and temp_w*1.5 > partition.height):
+                        if temp_w <= 250 and (temp_w < partition.height * 1.5 and temp_w * 1.5 > partition.height):
                             temp_partitions.append(Partition((partition_split + 1), partition.y, temp_w, partition.height, splitable=False))
                         else:
                             temp_partitions.append(Partition((partition_split + 1), partition.y, temp_w, partition.height))
@@ -41,12 +41,12 @@ class BSP:
                         partition_end_y = partition.y + partition.height
                         partition_split = random.randint(partition_start_y + math.floor(partition.height / 4), partition_end_y - math.floor(partition.height / 4))
                         temp_h = partition_split - partition_start_y
-                        if temp_h <= 250 and (temp_h < partition.width*1.5 and temp_h*1.5 > partition.width):
+                        if temp_h <= 250 and (temp_h < partition.width * 1.5 and temp_h * 1.5 > partition.width):
                             temp_partitions.append(Partition(partition.x, partition.y, partition.width, temp_h, splitable=False))
                         else:
                             temp_partitions.append(Partition(partition.x, partition.y, partition.width, temp_h))
                         temp_h = partition_end_y - partition_split
-                        if temp_h <= 250 and (temp_h < partition.width*1.5 and temp_h*1.5 > partition.width):
+                        if temp_h <= 250 and (temp_h < partition.width * 1.5 and temp_h * 1.5 > partition.width):
                            temp_partitions.append(Partition(partition.x, (partition_split + 1), partition.width, temp_h, splitable=False))
                         else:
                             temp_partitions.append(Partition(partition.x, (partition_split + 1), partition.width, temp_h))

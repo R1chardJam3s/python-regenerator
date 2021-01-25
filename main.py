@@ -11,7 +11,7 @@ BLUE = (0,0,255)
 YELLOW = (255,255,0)
 
 gameDisplay = pygame.display.set_mode(SCREEN)
-gameDisplay.fill(BLACK)
+
 pygame.display.set_caption("Dungeon Regeneration")
 
 clock = pygame.time.Clock()
@@ -21,10 +21,14 @@ crashed = False
 bsp = BSP(WIDTH, HEIGHT, 6)
 partitions = bsp.generate()
 
-for partition in partitions:
-    if (partition.width > 75 and partition.height > 75) and (partition.width/partition.height < 1.5 and partition.height/partition.width < 1.5):
-        pygame.draw.rect(gameDisplay, (random.randint(0,255),random.randint(0,255), random.randint(0,255)),
-                         partition.value())
+def drawDungeon():
+    gameDisplay.fill(BLACK)
+    for partition in partitions:
+        if partition.isValid():
+            pygame.draw.rect(gameDisplay, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
+                             partition.value())
+
+drawDungeon()
 
 while not crashed:
 
@@ -33,12 +37,8 @@ while not crashed:
             crashed = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                gameDisplay.fill(BLACK)
                 partitions = bsp.generate()
-                for partition in partitions:
-                    if (partition.width > 75 and partition.height > 75) and (partition.width/partition.height < 1.5 and partition.height/partition.width < 1.5):
-                        pygame.draw.rect(gameDisplay, (random.randint(0,255),random.randint(0,255), random.randint(0,255)),
-                                         partition.value())
+                drawDungeon()
 
     pygame.display.update()
     
@@ -46,3 +46,4 @@ while not crashed:
 
 pygame.quit()
 quit()
+
