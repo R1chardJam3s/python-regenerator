@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 
 crashed = False
 
-bsp = BSP(WIDTH, HEIGHT, 5)
+bsp = BSP(WIDTH, HEIGHT, 6)
 partitions = bsp.generate()
 
 for partition in partitions:
