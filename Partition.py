@@ -1,3 +1,6 @@
+#from Room import Room
+import math
+
 class Partition:
     def __init__(self, x, y, width, height, splitable=True):
         self.x = x
@@ -11,3 +14,6 @@ class Partition:
 
     def isValid(self):
     	return (self.width > 75 and self.height > 75) and (self.width/self.height < 1.5 and self.height/self.width < 1.5)
+
+    def getCentre(self):
+        return (self.x + math.floor(self.width / 2), self.y + math.floor(self.height / 2))
