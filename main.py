@@ -21,18 +21,18 @@ crashed = False
 bsp = BSP(WIDTH, HEIGHT)
 bsp.generate()
 
-def draw(partition):
+def partitions(partition):
     if partition.left != None:
-        draw(partition.left)
+        partitions(partition.left)
     if partition.isLeaf():
         pygame.draw.rect(gameDisplay, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), partition.value())
     if partition.right != None:
-        draw(partition.right)
+        partitions(partition.right)
 
 def corridors(partition):
     if partition.left != None and partition.right != None:
-        if partition.left.isLeaf() and partition.right.isLeaf():
-            pygame.draw.line(gameDisplay, WHITE, partition.left.getCentre(), partition.right.getCentre())
+        #if partition.left.isLeaf() and partition.right.isLeaf():
+        pygame.draw.line(gameDisplay, WHITE, partition.left.getCentre(), partition.right.getCentre(), width=3)
         if partition.left != None:
             corridors(partition.left)
         if partition.right != None:
@@ -40,7 +40,7 @@ def corridors(partition):
 
 def drawDungeon():
     gameDisplay.fill(BLACK)
-    draw(bsp.root)
+    partitions(bsp.root)
     corridors(bsp.root)
             
 drawDungeon()
