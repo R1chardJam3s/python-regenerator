@@ -35,8 +35,11 @@ class Partition_n:
         self.right = right
 
     def isLeaf(self):
-        if self.left == None and self.right == None:
-            return True
+        if self.isValid():
+            if self.left == None and self.right == None:
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -48,3 +51,6 @@ class Partition_n:
 
     def getCentre(self):
         return (self.x + math.floor(self.width / 2), self.y + math.floor(self.height / 2))
+
+    def largeEnough(self):
+        return (self.width > 75 and self.height > 75)
