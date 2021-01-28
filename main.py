@@ -18,16 +18,31 @@ clock = pygame.time.Clock()
 
 crashed = False
 
-bsp = BSP(WIDTH, HEIGHT, 6)
-partitions = bsp.generate()
+bsp = BSP(WIDTH, HEIGHT)
+bsp.generate()
+
+def draw(partition):
+    if partition.left != None:
+        draw(partition.left)
+    if partition.isLeaf():
+        pygame.draw.rect(gameDisplay, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), partition.value())
+    if partition.right != None:
+        draw(partition.right)
+
+def corridors(partition):
+    if partition.left != None and partition.right != None:
+        if partition.left.isLeaf() and partition.right.isLeaf():
+            pygame.draw.line(gameDisplay, WHITE, partition.left.getCentre(), partition.right.getCentre())
+        if partition.left != None:
+            corridors(partition.left)
+        if partition.right != None:
+            corridors(partition.right)
 
 def drawDungeon():
     gameDisplay.fill(BLACK)
-    for partition in partitions:
-        if partition.isValid():
-            pygame.draw.rect(gameDisplay, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
-                             partition.value())
-
+    draw(bsp.root)
+    corridors(bsp.root)
+            
 drawDungeon()
 
 while not crashed:
@@ -37,7 +52,8 @@ while not crashed:
             crashed = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                partitions = bsp.generate()
+                bsp = BSP(WIDTH, HEIGHT)
+                bsp.generate()
                 drawDungeon()
 
     pygame.display.update()
