@@ -1,4 +1,4 @@
-#from Room import Room
+from Room import Room
 import math
 
 class Partition:
@@ -27,6 +27,7 @@ class Partition_n:
         self.splitable = splitable
         self.left = None
         self.right = None
+        self.room = None
 
     def setLeft(self, left):
         self.left = left
@@ -54,3 +55,6 @@ class Partition_n:
 
     def largeEnough(self):
         return (self.width > 75 and self.height > 75)
+
+    def createRoom(self):
+        self.room = Room(self.x, self.y, self.width, self.height)
