@@ -1,5 +1,6 @@
 import random, math
 from Partition import *
+from Room import Room
 
 class BSP:
     def __init__(self, width, height):
@@ -49,3 +50,13 @@ class BSP:
                 self.generate(partition=partition.left)
             if partition.right.splitable:
                 self.generate(partition=partition.right)
+
+    def createRooms(self, partition=None):
+        if partition == None:
+            partition = self.root
+        if partition.isLeaf():
+            partition.createRoom()
+        if partition.left != None:
+            self.createRooms(partition.left)
+        if partition.right != None:
+            self.createRooms(partition.right)
