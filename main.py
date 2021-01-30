@@ -1,5 +1,6 @@
 import pygame, random
 from BSP import BSP
+from Room import Room
 
 pygame.init()
 
@@ -20,6 +21,7 @@ crashed = False
 
 bsp = BSP(WIDTH, HEIGHT)
 bsp.generate()
+bsp.createRooms()
 
 def partitions(partition):
     if partition.left != None:
@@ -32,16 +34,25 @@ def partitions(partition):
 def corridors(partition):
     if partition.left != None and partition.right != None:
         #if partition.left.isLeaf() and partition.right.isLeaf():
-        pygame.draw.line(gameDisplay, WHITE, partition.left.getCentre(), partition.right.getCentre(), width=3)
+        pygame.draw.line(gameDisplay, WHITE, partition.left.getCentre(), partition.right.getCentre(), width=10)
         if partition.left != None:
             corridors(partition.left)
         if partition.right != None:
             corridors(partition.right)
 
+def rooms(partition):
+    if partition.left != None:
+        rooms(partition.left)
+    if partition.isLeaf():
+        pygame.draw.rect(gameDisplay, WHITE, partition.room.value())
+    if partition.right != None:
+        rooms(partition.right)
+
 def drawDungeon():
     gameDisplay.fill(BLACK)
     partitions(bsp.root)
     corridors(bsp.root)
+    rooms(bsp.root)
             
 drawDungeon()
 
@@ -54,6 +65,7 @@ while not crashed:
             if event.key == pygame.K_r:
                 bsp = BSP(WIDTH, HEIGHT)
                 bsp.generate()
+                bsp.createRooms()
                 drawDungeon()
 
     pygame.display.update()
