@@ -1,13 +1,12 @@
-from Partition import Partition
+import random, math
 
 class Room:
-	def __init__(self, partition):
-		self.partition = partition
-		self.x,self.y,self.width,self.height = generate()
 
-	def generate():
-		x = self.partition.x
-		y = self.partition.y
-		width = self.partition.width
-		height = self.partition.height
-		return x,y,width,height
+	def __init__(self, x, y, w, h):
+		self.width = w - random.randint(5, math.floor(w / 2))
+		self.height = h - random.randint(5, math.floor(h / 2))
+		self.x = random.randint(x, (x + w) - self.width)
+		self.y = random.randint(y, (y + h) - self.height)
+
+	def value(self):
+		return (self.x, self.y, self.width, self.height)
