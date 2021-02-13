@@ -1,5 +1,6 @@
 from Room import Room
 import math
+from Corridor import Corridor
 
 class Partition:
     def __init__(self, x, y, width, height, splitable=True):
