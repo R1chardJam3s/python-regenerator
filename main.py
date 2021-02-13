@@ -34,7 +34,7 @@ def partitions(partition):
 
 def corridors():
     for corridor in bsp.corridors:
-        pygame.draw.line(gameDisplay, WHITE, corridor.getStart(), corridor.getEnd(), width=10)
+        pygame.draw.line(gameDisplay, WHITE, corridor.getStart(), corridor.getEnd(), width=8)
 
 def rooms(partition):
     if partition.left != None:
