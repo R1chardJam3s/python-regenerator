@@ -8,6 +8,7 @@ class BSP:
         self.height = height
         self.root = Partition_n(0, 0, self.width, self.height)
         self.corridors = []
+        self.base = None
 
     def generate(self, partition=None):
         if partition == None:
@@ -71,3 +72,25 @@ class BSP:
             self.createCorridors(partition.left)
         if partition.right != None:
             self.createCorridors(partition.right)
+
+    def getPartition(self, x, y, partition=None):
+        print("run")
+        if partition == None:
+            partition = self.root
+        if partition.hasRoom():
+            #if (partition.room.x <= x and (partition.room.x + partition.room.width) >= x) and (partition.room.y <= y and (partition.room.y + partition.room.height) >= y):
+            print(partition.hasRoom(), partition.isLeaf(), partition.value())
+            print(partition)
+            self.base = partition
+        elif not partition.largeEnough():
+            print("Invalid Regeneration Location")
+        elif partition.left.x == partition.right.x:
+            if (partition.left.y + partition.left.height) > y:
+                self.getPartition(x, y, partition=partition.left)
+            else:
+                self.getPartition(x, y, partition=partition.right)
+        else:
+            if (partition.left.x + partition.left.width) > x:
+                self.getPartition(x, y, partition=partition.left)
+            else:
+                self.getPartition(x, y, partition=partition.right)
