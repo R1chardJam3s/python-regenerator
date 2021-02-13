@@ -59,3 +59,6 @@ class Partition_n:
 
     def createRoom(self):
         self.room = Room(self.x, self.y, self.width, self.height)
+
+    def hasRoom(self):
+        return (self.room != None)
