@@ -7,6 +7,7 @@ class BSP:
         self.width = width
         self.height = height
         self.root = Partition_n(0, 0, self.width, self.height)
+        self.corridors = []
 
     def generate(self, partition=None):
         if partition == None:
@@ -60,3 +61,13 @@ class BSP:
             self.createRooms(partition.left)
         if partition.right != None:
             self.createRooms(partition.right)
+
+    def createCorridors(self, partition=None):
+        if partition == None:
+            partition = self.root
+        if partition.left != None and partition.right != None:
+            self.corridors.append(Corridor(*partition.left.getCentre(), *partition.right.getCentre()))
+        if partition.left != None:
+            self.createCorridors(partition.left)
+        if partition.right != None:
+            self.createCorridors(partition.right)
