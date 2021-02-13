@@ -65,6 +65,10 @@ while not crashed:
                 bsp.createRooms()
                 bsp.createCorridors()
                 drawDungeon()
+        elif event.type == pygame.MOUSEBUTTONUP:
+            print("click at", pygame.mouse.get_pos())
+            bsp.getPartition(*pygame.mouse.get_pos())
+            print(bsp.base)
 
     pygame.display.update()
     
@@ -72,4 +76,3 @@ while not crashed:
 
 pygame.quit()
 quit()
-
