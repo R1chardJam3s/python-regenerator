@@ -108,3 +108,24 @@ class BSP:
                         print("Corridor, s=",corridor.getStart(), "e=", corridor.getEnd())
                         temp_corridors.append(corridor)
         return temp_corridors
+
+    def regenerate(self):
+        if self.base.x == 0 and self.base.y == 0:
+            #top left corner
+        elif (self.base.x + self.base.width) == self.width and self.base.y == 0:
+            #top right corner
+        elif (self.base.x + self.base.width) == self.width and (self.base.y + self.base.height) == self.height:
+            #bottom right corner
+        elif self.base.x == 0 and (self.base.y + self.base.height) == self.height:
+            #bottom left corner
+        elif self.base.y == 0:
+            #joint to top screen bound
+        elif (self.base.x + self.base.width) == self.width:
+            #joint to right screen bound
+        elif (self.base.y + self.base.height) == self.height:
+            #joint to bottom screen bound
+        elif self.base.x == 0:
+            #joint to left screen bound
+        else:
+            #not on any bound
+            
