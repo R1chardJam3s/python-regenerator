@@ -74,12 +74,9 @@ class BSP:
             self.createCorridors(partition.right)
 
     def getPartition(self, x, y, partition=None):
-        #print("run")
         if partition == None:
             partition = self.root
         if partition.hasRoom():
-            #print(partition.hasRoom(), partition.isLeaf(), partition.value())
-            #print(partition)
             self.base = partition
             print("Partition=", self.base.value())
             print("Room=", self.base.room.value())
