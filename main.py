@@ -63,7 +63,7 @@ while not crashed:
                 drawDungeon()
         elif event.type == pygame.MOUSEBUTTONUP:
             print("\nclick at", pygame.mouse.get_pos())
-            bsp.getPartition(*pygame.mouse.get_pos())
+            bsp.regenerate(*pygame.mouse.get_pos())
             drawDungeon()
             #print(bsp.base)
 
