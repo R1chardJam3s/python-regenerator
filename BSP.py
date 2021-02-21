@@ -6,7 +6,7 @@ class BSP:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.root = Partition_n(0, 0, self.width, self.height)
+        self.root = Partition(0, 0, self.width, self.height)
         self.corridors = []
         self.base = None
 
@@ -30,27 +30,27 @@ class BSP:
                 partition_split = random.randint(partition.x + math.floor(partition.width / 4), partition_end - math.floor(partition.width / 4))
                 temp_width = partition_split - partition.x
                 if temp_width < 250 and (temp_width/partition.height < 1.5 and partition.height/temp_width < 1.5):
-                    temp_partition_1 = Partition_n(partition.x, partition.y, temp_width, partition.height, splitable=False)
+                    temp_partition_1 = Partition(partition.x, partition.y, temp_width, partition.height, splitable=False)
                 else:
-                    temp_partition_1 = Partition_n(partition.x, partition.y, temp_width, partition.height)
+                    temp_partition_1 = Partition(partition.x, partition.y, temp_width, partition.height)
                 temp_width = partition_end - partition_split
                 if temp_width < 250 and (temp_width/partition.height < 1.5 and partition.height/temp_width < 1.5):
-                    temp_partition_2 = Partition_n(partition_split, partition.y, temp_width, partition.height, splitable=False)
+                    temp_partition_2 = Partition(partition_split, partition.y, temp_width, partition.height, splitable=False)
                 else:
-                    temp_partition_2 = Partition_n(partition_split, partition.y, temp_width, partition.height)
+                    temp_partition_2 = Partition(partition_split, partition.y, temp_width, partition.height)
             else:
                 partition_end = partition.y + partition.height
                 partition_split = random.randint(partition.y + math.floor(partition.height / 4), partition_end - math.floor(partition.height / 4))
                 temp_height = partition_split - partition.y
                 if temp_height < 250 and (temp_height/partition.width < 1.5 and partition.width/temp_height < 1.5):
-                    temp_partition_1 = Partition_n(partition.x, partition.y, partition.width, temp_height, splitable=False)
+                    temp_partition_1 = Partition(partition.x, partition.y, partition.width, temp_height, splitable=False)
                 else:
-                    temp_partition_1 = Partition_n(partition.x, partition.y, partition.width, temp_height)
+                    temp_partition_1 = Partition(partition.x, partition.y, partition.width, temp_height)
                 temp_height = partition_end - partition_split
                 if temp_height < 250 and (temp_height/partition.width < 1.5 and partition.width/temp_height < 1.5):
-                    temp_partition_2 = Partition_n(partition.x, partition_split, partition.width, temp_height, splitable=False)
+                    temp_partition_2 = Partition(partition.x, partition_split, partition.width, temp_height, splitable=False)
                 else:
-                    temp_partition_2 = Partition_n(partition.x, partition_split, partition.width, temp_height)
+                    temp_partition_2 = Partition(partition.x, partition_split, partition.width, temp_height)
             partition.setLeft(temp_partition_1)
             partition.setRight(temp_partition_2)
             if partition.left.splitable:
