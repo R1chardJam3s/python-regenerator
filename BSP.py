@@ -10,6 +10,11 @@ class BSP:
         self.corridors = []
         self.base = None
 
+    def gen(self):
+        self.generate()
+        self.createRooms()
+        self.createCorridors()
+
     def generate(self, partition=None):
         if partition == None:
             partition = self.root
@@ -112,20 +117,29 @@ class BSP:
     def regenerate(self):
         if self.base.x == 0 and self.base.y == 0:
             #top left corner
+            return True
         elif (self.base.x + self.base.width) == self.width and self.base.y == 0:
             #top right corner
+            return True
         elif (self.base.x + self.base.width) == self.width and (self.base.y + self.base.height) == self.height:
             #bottom right corner
+            return True
         elif self.base.x == 0 and (self.base.y + self.base.height) == self.height:
             #bottom left corner
+            return True
         elif self.base.y == 0:
             #joint to top screen bound
+            return True
         elif (self.base.x + self.base.width) == self.width:
             #joint to right screen bound
+            return True
         elif (self.base.y + self.base.height) == self.height:
             #joint to bottom screen bound
+            return True
         elif self.base.x == 0:
             #joint to left screen bound
+            return True
         else:
             #not on any bound
+            return True
             

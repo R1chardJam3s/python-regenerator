@@ -20,9 +20,7 @@ clock = pygame.time.Clock()
 crashed = False
 
 bsp = BSP(WIDTH, HEIGHT)
-bsp.generate()
-bsp.createRooms()
-bsp.createCorridors()
+bsp.gen()
 
 def partitions(partition):
     if partition.left != None:
@@ -61,9 +59,7 @@ while not crashed:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 bsp = BSP(WIDTH, HEIGHT)
-                bsp.generate()
-                bsp.createRooms()
-                bsp.createCorridors()
+                bsp.gen()
                 drawDungeon()
         elif event.type == pygame.MOUSEBUTTONUP:
             print("\nclick at", pygame.mouse.get_pos())
