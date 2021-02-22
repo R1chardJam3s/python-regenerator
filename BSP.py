@@ -126,6 +126,23 @@ class BSP:
                     if not(corridor.start_y > (self.base.room.y + self.base.room.height) or corridor.end_y < self.base.room.y):
                         self.corridors.remove(corridor)
 
+    def rgc(self):
+        self.createRooms()
+        corridors = []
+        for corridor in self.corridors:
+            corridors.append(corridor)
+        self.createCorridors()
+        self.removeCorridors()
+        for corridor in corridors:
+            if corridor not in self.corridors:
+                self.corridors.append(corridor)
+        for corridor in self.corridors:
+            index = self.corridors.index(corridor)
+            for c in self.corridors:
+                if corridor.getStart() == c.getStart() and corridor.getEnd() == c.getEnd():
+                    if not index == self.corridors.index(c):
+                        self.corridors.remove(c)
+
     def regenerate(self, x, y):
         self.getPartition(x, y)
         if self.base != None:
@@ -141,17 +158,7 @@ class BSP:
                 root_l.setRight(Partition(0, self.base.height, self.base.width, (self.height - self.base.height)))
                 self.generate(root_l.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
                 #checking that corridor meets a room isn't implemented
             elif (self.base.x + self.base.width) == self.width and self.base.y == 0:
                 #top right corner
@@ -165,17 +172,7 @@ class BSP:
                 root_r.setRight(Partition(self.base.x, self.base.height, self.base.width, (self.height - self.base.height)))
                 self.generate(root_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif (self.base.x + self.base.width) == self.width and (self.base.y + self.base.height) == self.height:
                 #bottom right corner
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -188,17 +185,7 @@ class BSP:
                 root_r.setRight(self.base)
                 self.generate(root_r.left)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif self.base.x == 0 and (self.base.y + self.base.height) == self.height:
                 #bottom left corner
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -211,17 +198,7 @@ class BSP:
                 root_l.setRight(self.base)
                 self.generate(root_l.left)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif self.base.y == 0:
                 #joint to top screen bound
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -238,17 +215,7 @@ class BSP:
                 root_l_r.setRight(Partition((self.base.x + self.base.width), 0, (self.width - (self.base.x + self.base.width)), self.base.height))
                 self.generate(root_l_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif (self.base.x + self.base.width) == self.width:
                 #joint to right screen bound
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -265,17 +232,7 @@ class BSP:
                 root_r_r.setRight(Partition(self.base.x, (self.base.y + self.base.height), self.base.width, (self.height - (self.base.y + self.base.height))))
                 self.generate(root_r_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif (self.base.y + self.base.height) == self.height:
                 #joint to bottom screen bound
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -292,17 +249,7 @@ class BSP:
                 root_r_r.setRight(Partition((self.base.x + self.base.width), self.base.y, (self.width - (self.base.x + self.base.width)), self.base.height))
                 self.generate(root_r_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             elif self.base.x == 0:
                 #joint to left screen bound
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -319,17 +266,7 @@ class BSP:
                 root_l_r.setRight(Partition(0, (self.base.y + self.base.height), self.base.width, (self.height - (self.base.y + self.base.height))))
                 self.generate(root_l_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
             else:
                 #not on any bound
                 temp_root = Partition(0, 0, self.width, self.height)
@@ -352,14 +289,4 @@ class BSP:
                 root_r_l_r.setRight(Partition(self.base.x, (self.base.y + self.base.height), self.base.width, (self.height - (self.base.y + self.base.height))))
                 self.generate(root_r_l_r.right)
                 self.root = temp_root
-                print("r=", self.root)
-                print("tr=", temp_root)
-                print("b=", self.base)
-                self.createRooms()
-                corridors = []
-                for corridor in self.corridors:
-                    corridors.append(corridor)
-                self.createCorridors()
-                self.removeCorridors()
-                for corridor in corridors:
-                    self.corridors.append(corridor)
+                self.rgc()
