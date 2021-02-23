@@ -116,15 +116,18 @@ class BSP:
         return temp_corridors
 
     def removeCorridors(self):
+        rem = []
         for corridor in self.corridors:
             if corridor.start_y == corridor.end_y: #if horizontal
                 if (corridor.start_y + 4) >= self.base.room.y and (corridor.start_y - 4) <= (self.base.room.y + self.base.room.height):
                     if not(corridor.start_x > (self.base.room.x + self.base.room.width) or corridor.end_x < self.base.room.x):
-                        self.corridors.remove(corridor)
+                        rem.append(corridor)
             else:
                 if (corridor.start_x + 4) >= self.base.room.x and (corridor.start_x - 4) <= (self.base.room.x + self.base.room.width):
                     if not(corridor.start_y > (self.base.room.y + self.base.room.height) or corridor.end_y < self.base.room.y):
-                        self.corridors.remove(corridor)
+                        rem.append(corridor)
+        for corridor in rem:
+            self.corridors.remove(corridor)
 
     def rgc(self):
         self.createRooms()
@@ -142,6 +145,7 @@ class BSP:
                 if corridor.getStart() == c.getStart() and corridor.getEnd() == c.getEnd():
                     if not index == self.corridors.index(c):
                         self.corridors.remove(c)
+        
 
     def regenerate(self, x, y):
         self.getPartition(x, y)
