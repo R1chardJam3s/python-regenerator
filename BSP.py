@@ -86,7 +86,7 @@ class BSP:
             print("Partition=", self.base.value())
             print("Room=", self.base.room.value())
             self.corridors = self.baseCorridors()
-        elif not partition.canRegen():
+        elif partition.left == None and partition.right == None:
             print("Invalid Regeneration Location")
             self.base = None
         elif partition.left.x == partition.right.x:
