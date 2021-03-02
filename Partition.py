@@ -45,6 +45,3 @@ class Partition:
 
     def hasRoom(self):
         return (self.room != None)
-
-    def canRegen(self):
-        return (self.width > 75 and self.height > 75) or (self.width/self.height < 1.5 and self.height/self.width < 1.5)
