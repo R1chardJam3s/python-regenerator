@@ -10,3 +10,6 @@ class Room:
 
 	def value(self):
 		return (self.x, self.y, self.width, self.height)
+
+	def contains(self, x, y):
+		return (x >= self.x) and (x <= self.x + self.width) and (y >= self.y) and (y <= self.y + self.height)
