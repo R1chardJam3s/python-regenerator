@@ -82,23 +82,20 @@ class BSP:
         if partition == None:
             partition = self.root
         if partition.hasRoom():
-            self.base = partition
-            print("Partition=", self.base.value())
-            print("Room=", self.base.room.value())
-            self.corridors = self.baseCorridors()
+            return partition
         elif partition.left == None and partition.right == None:
             print("Invalid Regeneration Location")
-            self.base = None
+            return None
         elif partition.left.x == partition.right.x:
             if (partition.left.y + partition.left.height) > y:
-                self.getPartition(x, y, partition=partition.left)
+                return self.getPartition(x, y, partition=partition.left)
             else:
-                self.getPartition(x, y, partition=partition.right)
+                return self.getPartition(x, y, partition=partition.right)
         else:
             if (partition.left.x + partition.left.width) > x:
-                self.getPartition(x, y, partition=partition.left)
+                return self.getPartition(x, y, partition=partition.left)
             else:
-                self.getPartition(x, y, partition=partition.right)
+                return self.getPartition(x, y, partition=partition.right)
 
     def baseCorridors(self):
         temp_corridors = []
@@ -148,8 +145,11 @@ class BSP:
         
 
     def regenerate(self, x, y):
-        self.getPartition(x, y)
+        self.base = self.getPartition(x, y)
         if self.base != None:
+            print("Partition=", self.base.value())
+            print("Room=", self.base.room.value())
+            self.corridors = self.baseCorridors()
             if self.base.x == 0 and self.base.y == 0:
                 #top left corner
                 temp_root = Partition(0, 0, self.width, self.height)
