@@ -82,10 +82,10 @@ class BSP:
         if partition == None:
             partition = self.root
         if partition.hasRoom():
-            return partition
+            return (True, partition)
         elif partition.left == None and partition.right == None:
             print("Invalid Regeneration Location")
-            return None
+            return (False, partition)
         elif partition.left.x == partition.right.x:
             if (partition.left.y + partition.left.height) > y:
                 return self.getPartition(x, y, partition=partition.left)
@@ -145,8 +145,9 @@ class BSP:
         
 
     def regenerate(self, x, y):
-        self.base = self.getPartition(x, y)
-        if self.base != None:
+        p = self.getPartition(x, y)
+        if p[0]:
+            self.base = p[1]
             print("Partition=", self.base.value())
             print("Room=", self.base.room.value())
             self.corridors = self.baseCorridors()
