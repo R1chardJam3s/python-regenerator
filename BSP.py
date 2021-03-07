@@ -158,9 +158,9 @@ class BSP:
                 cc.append(c)
             for c in c2:
                 cc.append(c)
-        corridors = [*corridors, *cc] 
         # /
         self.createCorridors()
+        self.corridors = [*self.corridors, *cc]
         self.removeCorridors()
         for corridor in corridors:
             if corridor not in self.corridors:
@@ -213,8 +213,13 @@ class BSP:
                 cx, cy = np.getCentre()
                 #draw to centre
             else:
-                cx = random.randint(0, self.width)
-                cy = random.randint(0, self.height)
+                check = True
+                while check:
+                    cx = random.randint(0, self.width)
+                    cy = random.randint(0, self.height)
+                    if self.getPartition(cx, cy)[0]:
+                        if self.getPartition(cx, cy)[1].room.contains(cx, cy) and self.getPartition(cx, cy)[1] != self.base:
+                            check = False
                 #check partition, and draw
         if cr_h:
             # existing corridor is horizontal
