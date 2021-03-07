@@ -131,25 +131,34 @@ class BSP:
         for corridor in self.corridors:
             corridors.append(corridor)
         #check for room connectivity here
+        cc = []
         for corridor in corridors:
+            c1, c2 = [], []
             x, y = corridor.getStart()
             v, p = self.getPartition(x, y)
             if not v:
                 #connect
                 print("algorithm will connect (no room)", x, y)
-                self.connect()
+                c1 = self.connect(x, y, v, p, corridor.start_y == corridor.end_y)
             else:
                 if not p.room.contains(x, y):
-                    print("algorithm will connect (room but no connectivity", x, y)
+                    print("algorithm will connect (room but no connectivity)", x, y, p == self.base)
+                    c1 = self.connect(x, y, v, p, corridor.start_y == corridor.end_y)
             x, y = corridor.getEnd()
             v, p = self.getPartition(x, y)
             if p.room == None:
                 #connect
                 print("algorithm will connect (no room)", x, y)
-                self.connect()
+                c2 = self.connect(x, y, v, p, corridor.start_y == corridor.end_y)
             else:
                 if not p.room.contains(x, y):
-                    print("algorithm will connect (room but no connectivity", x, y)
+                    print("algorithm will connect (room but no connectivity)", x, y, p == self.base)
+                    c2 = self.connect(x, y, v, p, corridor.start_y == corridor.end_y)
+            for c in c1:
+                cc.append(c)
+            for c in c2:
+                cc.append(c)
+        corridors = [*corridors, *cc] 
         # /
         self.createCorridors()
         self.removeCorridors()
@@ -163,8 +172,74 @@ class BSP:
                     if not index == self.corridors.index(c):
                         self.corridors.remove(c)
         
-    def connect(self):
-        return True
+    def connect(self, x, y, v, p, cr_h):
+        connectives = []
+        cx, cy = 0, 0
+        if v and (p != self.base):
+            cx, cy = p.getCentre()
+            #draw to centre
+        else:
+            # if p is base, or corridor is in a partition with no room
+            if self.getPartition(p.getCentre()[0], p.y - 1)[0] and (self.getPartition(p.getCentre()[0], p.y - 1)[1] != self.base):
+                np = self.getPartition(p.getCentre()[0], p.y - 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x + p.width + 1, p.y - 1)[0] and (self.getPartition(p.x + p.width + 1, p.y - 1)[1] != self.base):
+                np = self.getPartition(p.x + p.width + 1, p.y - 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x + p.width + 1, p.getCentre()[1])[0] and (self.getPartition(p.x + p.width + 1, p.getCentre()[1])[1] != self.base):
+                np = self.getPartition(p.x + p.width + 1, p.getCentre()[1])[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x + p.width + 1, p.y + p.height + 1)[0] and (self.getPartition(p.x + p.width + 1, p.y + p.height + 1)[1] != self.base):
+                np = self.getPartition(p.x + p.width + 1, p.y + p.height + 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.getCentre()[0], p.y + p.height + 1)[0] and (self.getPartition(p.getCentre()[0], p.y + p.height + 1)[1] != self.base):
+                np = self.getPartition(p.getCentre()[0], p.y + p.height + 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x - 1, p.y + p.height + 1)[0] and (self.getPartition(p.x - 1, p.y + p.height + 1)[1] != self.base):
+                np = self.getPartition(p.x - 1, p.y + p.height + 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x - 1, p.getCentre()[1])[0] and (self.getPartition(p.x - 1, p.getCentre()[1])[1] != self.base):
+                np = self.getPartition(p.x - 1, p.getCentre()[1])[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            elif self.getPartition(p.x - 1, p.y - 1)[0] and (self.getPartition(p.x - 1, p.y - 1)[1] != self.base):
+                np = self.getPartition(p.x - 1, p.y - 1)[1]
+                cx, cy = np.getCentre()
+                #draw to centre
+            else:
+                cx = random.randint(0, self.width)
+                cy = random.randint(0, self.height)
+                #check partition, and draw
+        if cr_h:
+            # existing corridor is horizontal
+            c1 = Corridor(x, y, x, cy)
+            connectives.append(c1)
+            if self.getPartition(x, cy)[0]:
+                if not self.getPartition(x, cy)[1].room.contains(x, cy):
+                    c2 = Corridor(x, cy, cx, cy)
+                    connectives.append(c2)
+            else:
+                c2 = Corridor(x, cy, cx, cy)
+                connectives.append(c2)
+        else:
+            # existing corridor is vertical
+            c1 = Corridor(x, y, cx, y)
+            connectives.append(c1)
+            if self.getPartition(cx, y)[0]:
+                if not self.getPartition(cx, y)[1].room.contains(cx, y):
+                    c2 = Corridor(cx, y, cx, cy)
+                    connectives.append(c2)
+            else:
+                c2 = Corridor(cx, y, cx, cy)
+                connectives.append(c2)
+        print("connect to=", cx, cy)
+        return connectives
 
     def regenerate(self, x, y):
         p = self.getPartition(x, y)
