@@ -84,7 +84,6 @@ class BSP:
         if partition.hasRoom():
             return (True, partition)
         elif partition.left == None and partition.right == None:
-            print("Invalid Regeneration Location")
             return (False, partition)
         elif partition.left.x == partition.right.x:
             if (partition.left.y + partition.left.height) > y:
@@ -131,6 +130,27 @@ class BSP:
         corridors = []
         for corridor in self.corridors:
             corridors.append(corridor)
+        #check for room connectivity here
+        for corridor in corridors:
+            x, y = corridor.getStart()
+            v, p = self.getPartition(x, y)
+            if not v:
+                #connect
+                print("algorithm will connect (no room)", x, y)
+                self.connect()
+            else:
+                if not p.room.contains(x, y):
+                    print("algorithm will connect (room but no connectivity", x, y)
+            x, y = corridor.getEnd()
+            v, p = self.getPartition(x, y)
+            if p.room == None:
+                #connect
+                print("algorithm will connect (no room)", x, y)
+                self.connect()
+            else:
+                if not p.room.contains(x, y):
+                    print("algorithm will connect (room but no connectivity", x, y)
+        # /
         self.createCorridors()
         self.removeCorridors()
         for corridor in corridors:
@@ -143,10 +163,14 @@ class BSP:
                     if not index == self.corridors.index(c):
                         self.corridors.remove(c)
         
+    def connect(self):
+        return True
 
     def regenerate(self, x, y):
         p = self.getPartition(x, y)
-        if p[0]:
+        if not p[0]:
+            print("Invalid Regeneration Location")
+        else:
             self.base = p[1]
             print("Partition=", self.base.value())
             print("Room=", self.base.room.value())
