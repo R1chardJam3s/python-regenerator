@@ -213,13 +213,25 @@ class BSP:
                 cx, cy = np.getCentre()
                 #draw to centre
             else:
-                check = True
-                while check:
-                    cx = random.randint(0, self.width)
-                    cy = random.randint(0, self.height)
+                count = 0
+                while count < 20:
+                    if cr_h:
+                        cx = x
+                        cy = random.randint(0, self.height)
+                    else:
+                        cx = random.randint(0, self.width)
+                        cy = y
                     if self.getPartition(cx, cy)[0]:
                         if self.getPartition(cx, cy)[1].room.contains(cx, cy) and self.getPartition(cx, cy)[1] != self.base:
-                            check = False
+                            break
+                    count += 1
+                if count == 20:
+                    while True:
+                        cx = random.randint(0, self.width)
+                        cy = random.randint(0, self.height)
+                        if self.getPartition(cx, cy)[0]:
+                            if self.getPartition(cx, cy)[1].room.contains(cx, cy) and self.getPartition(cx, cy)[1] != self.base:
+                                break
                 #check partition, and draw
         if cr_h:
             # existing corridor is horizontal
