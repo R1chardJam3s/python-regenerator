@@ -7,5 +7,8 @@ A Python Dungeon Generator that recreates the dungeon around the room that is cl
 ## Version
 Developed for Python 3.7.
 
-### External Library requirements:
+## Requirements:
 1. pygame (for displaying the dungeon)
+
+### Is it being updated?
+No.
